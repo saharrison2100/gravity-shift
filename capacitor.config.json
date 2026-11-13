@@ -1,0 +1,11 @@
+{
+  "appId": "com.saharrison2100.gravityshift",
+  "appName": "Gravity Shift",
+  "webDir": "docs",
+  "backgroundColor": "#05070f",
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  }
+}
