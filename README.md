@@ -12,7 +12,7 @@ You never stop moving. Tap, click or press space to flip gravity and run the cei
 | --- | --- |
 | Contest entry (Base44 app) | https://gravity-shift-a2b09350.base44.app |
 | Standalone web build (GitHub Pages) | https://saharrison2100.github.io/gravity-shift/ |
-| Android APK | https://github.com/saharrison2100/gravity-shift/releases/download/v1.0.0/gravity-shift-v1.0.0.apk |
+| Android APK | https://github.com/saharrison2100/gravity-shift/releases/download/v1.1.0/gravity-shift-v1.1.0.apk |
 
 The Base44 app is the version submitted to the Base44 $65K Web Game Contest. This repository carries the standalone implementation of the same game so it can run anywhere, install as a home-screen app, and ship as an Android build.
 
