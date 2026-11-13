@@ -4,7 +4,17 @@ A one-touch gravity-flip runner that runs in any browser, offline, with no game 
 
 You never stop moving. Tap, click or press space to flip gravity and run the ceiling or the floor. Spikes sit on both surfaces, the shaft keeps speeding up, and every shard you snag raises the combo multiplier. One mistake ends the run.
 
-**Play:** https://saharrison2100.github.io/gravity-shift/
+![Gameplay](screenshots/gameplay.png)
+
+## Play it
+
+| Build | Link |
+| --- | --- |
+| Contest entry (Base44 app) | https://gravity-shift-a2b09350.base44.app |
+| Standalone web build (GitHub Pages) | https://saharrison2100.github.io/gravity-shift/ |
+| Android APK | https://github.com/saharrison2100/gravity-shift/releases/download/v1.0.0/gravity-shift-v1.0.0.apk |
+
+The Base44 app is the version submitted to the Base44 $65K Web Game Contest. This repository carries the standalone implementation of the same game so it can run anywhere, install as a home-screen app, and ship as an Android build.
 
 ## Controls
 
@@ -15,11 +25,19 @@ You never stop moving. Tap, click or press space to flip gravity and run the cei
 | Restart | `R` | Run again |
 | Mute | `M` | Sound button |
 
+## Install on Android
+
+1. Download the APK from the releases link above.
+2. Allow installs from unknown sources when Android asks.
+3. Open Gravity Shift. It plays offline, no network needed.
+
+The APK is a debug build signed with the standard debug keystore, wrapped with Capacitor 6 around the same web assets in `docs/`.
+
 ## What is in here
 
-- `docs/` — the whole game. `index.html`, `game.js`, a PWA manifest, a service worker and icons.
-- `capacitor.config.json` — Android wrapper config (web assets served from `docs/`).
-- `.github/workflows/android-apk.yml` — builds a debug APK on every push and attaches it to the `v1.0.0` release.
+- `docs/` — the whole game: `index.html`, `game.js`, PWA manifest, service worker, icons.
+- `capacitor.config.json` — Android wrapper config, web assets served from `docs/`.
+- `screenshots/` — gameplay and title captures.
 
 ## Tech notes
 
@@ -35,7 +53,9 @@ npx http-server docs -p 8080 -c-1
 # open http://localhost:8080
 ```
 
-## Build the Android APK
+## Build the APK yourself
+
+Requires JDK 17, Android SDK 34 (platform + build-tools 34.0.0).
 
 ```bash
 npm install
@@ -45,8 +65,8 @@ cd android && ./gradlew assembleDebug
 # android/app/build/outputs/apk/debug/app-debug.apk
 ```
 
-Or let GitHub Actions do it: every push to `main` builds the APK and publishes it to the releases page.
+Capacitor is pinned to 6.x because Capacitor 7 compiles Java 21 bytecode and needs JDK 21.
 
 ## Built for
 
-The Base44 $65K Web Game Contest (deadline 3 December 2026). The Base44 build of the same game is the contest entry; this repository is the standalone source.
+The Base44 $65K Web Game Contest, deadline 3 December 2026.

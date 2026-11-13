@@ -1,4 +1,6 @@
 node_modules/
 android/
+*.apk
+gravity-shift-v1.0.0.apk
 .DS_Store
 *.log
