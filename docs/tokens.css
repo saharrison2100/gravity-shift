@@ -1,0 +1,85 @@
+/* GRAVITY SHIFT — Design tokens v1.0
+   Hans & Co Game Studio. Ready for implementation (verified render).
+   Import once at app root; consume via var(--gs-*). */
+
+:root {
+  /* ---- Core neutrals ---- */
+  --gs-void:        #05070B;
+  --gs-slate-deep:  #0B1119;
+  --gs-graphite:    #161E29;
+  --gs-steel:       #2A3644;
+  --gs-mist:        #8FA0B3;
+  --gs-ivory:       #E8EFF7;
+
+  /* ---- Gravity semantics (never repurpose these) ---- */
+  --gs-gravity:     #22D3EE; /* stable field / current direction */
+  --gs-gravity-hi:  #A9F4FF; /* core highlight */
+  --gs-hazard:      #FFB13B; /* warning, instability */
+  --gs-failure:     #FF4D4D; /* field failure, damage */
+  --gs-null:        #8B5CF6; /* null zones */
+  --gs-null-hot:    #E440FF; /* null surge */
+
+  /* ---- Characters ---- */
+  --gs-flux-core:   #22D3EE;
+  --gs-flux-shell:  #161E29;
+  --gs-flux-plate:  #E8EFF7;
+  --gs-flux-accent: #FFB13B;
+  --gs-orbit-eye:   #A3F55B;
+  --gs-orbit-shell: #DCE6F0;
+  --gs-orbit-ring:  #7C6BFF;
+  --gs-warden-core: #FF5A3C;
+  --gs-warden-arm:  #39424E;
+  --gs-warden-bronze:#6B5334;
+  --gs-warden-eye:  #FF3B3B;
+  --gs-null-body:   #06060A;
+  --gs-null-edge:   #F1E9FF;
+
+  /* ---- Sector palettes ---- */
+  --gs-s1-concrete:#3B4754; --gs-s1-shadow:#16242E; --gs-s1-light:#B9C7CF;
+  --gs-s2-steel:   #222E3C; --gs-s2-core:   #35E7FF; --gs-s2-furnace:#FF6B2B;
+  --gs-s3-void:    #04030A; --gs-s3-hot:    #E440FF; --gs-s3-shard:  #EDE6FF;
+
+  /* ---- UI surfaces ---- */
+  --gs-surface:        rgba(13, 20, 28, 0.80);
+  --gs-surface-raised: rgba(20, 32, 43, 0.85);
+  --gs-border:         #2C3D4D;
+  --gs-text:           #EAF2FA;
+  --gs-text-dim:       #9FB0C2;
+  --gs-success:        #4ADE80;
+
+  /* ---- Type ---- */
+  --gs-font-display: "Chakra Petch", "Rajdhani", system-ui, sans-serif;
+  --gs-font-ui:      "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --gs-font-num:     "JetBrains Mono", ui-monospace, monospace;
+
+  /* ---- Geometry ---- */
+  --gs-radius-sm: 6px;
+  --gs-radius:    12px;
+  --gs-radius-lg: 20px;
+  --gs-border-w:  1px;
+  --gs-blur:      14px;
+
+  /* ---- Motion ---- */
+  --gs-t-fast:   120ms;
+  --gs-t-base:   220ms;
+  --gs-t-shift:  420ms; /* must match gravity transition VFX */
+  --gs-ease-out: cubic-bezier(.22,.61,.36,1);
+  --gs-ease-shift: cubic-bezier(.34,1.4,.5,1);
+
+  /* ---- Elevation / glow ---- */
+  --gs-glow-gravity: 0 0 18px rgba(34,211,238,.45);
+  --gs-glow-hazard:  0 0 18px rgba(255,177,59,.45);
+  --gs-shadow-panel: 0 12px 40px rgba(0,0,0,.55);
+}
+
+/* Touch targets never below 48px; HUD text never below 12px on mobile. */
+
+/* ---- Game-shell aliases (canvas + HTML shell of G002) ---- */
+:root {
+  --bg: var(--gs-slate-deep);
+  --cyan: var(--gs-gravity);
+  --ink: var(--gs-ivory);
+  --dim: var(--gs-mist);
+  --hazard: var(--gs-failure);
+  --shard: var(--gs-gravity-hi);
+}

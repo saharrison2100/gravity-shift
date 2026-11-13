@@ -1,19 +1,46 @@
 {
   "name": "Gravity Shift",
   "short_name": "Gravity Shift",
-  "description": "Flip gravity to run the floor or the ceiling, dodge spikes and survive an ever-accelerating shaft.",
+  "description": "Gravity Shift - flip gravity to run the floor or the ceiling, dodge hazards, grab shards and survive an ever-accelerating shaft.",
   "id": "/gravity-shift/",
   "start_url": ".",
   "scope": ".",
   "display": "fullscreen",
-  "display_override": ["fullscreen", "standalone"],
+  "display_override": [
+    "fullscreen",
+    "standalone"
+  ],
   "orientation": "landscape",
-  "background_color": "#05070f",
-  "theme_color": "#05070f",
-  "categories": ["games", "entertainment"],
+  "background_color": "#05070B",
+  "theme_color": "#05070B",
+  "categories": [
+    "games",
+    "entertainment"
+  ],
   "icons": [
-    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon-48.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any"
+    }
   ]
 }

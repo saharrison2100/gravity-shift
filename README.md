@@ -70,3 +70,14 @@ Capacitor is pinned to 6.x because Capacitor 7 compiles Java 21 bytecode and nee
 ## Built for
 
 The Base44 $65K Web Game Contest, deadline 3 December 2026.
+
+## Art system (v1.1)
+
+The build now runs on the Gravity Shift Game Art Bible design system:
+
+- `docs/tokens.css` — the single source of colour, type, radii and motion. Nothing in the shell hard-codes a hex.
+- `docs/logo-mark.svg` + `docs/icons/` — production logo mark, 512/192/48 icons and an Android maskable icon.
+- `docs/game.js` — the **FLUX rig**: a single gravity-down character drawing rotated by the renderer (0/180 today, 0/90/180/270 ready), with the ceramic plating, cyan energy core, visor states and amber gravity-grip pads from the character bible.
+- Gravity read channels: wash aligned to the current vector, drifting dust, gravity-side rim light, and a 420 ms shift transition with arc, ring and flash.
+
+Palette: void `#05070B`, gravity cyan `#22D3EE`, gravity highlight `#A9F4FF`, hazard amber `#FFB13B`, failure red `#FF4D4D`.

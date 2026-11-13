@@ -3,27 +3,23 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-<meta name="theme-color" content="#05070f" />
-<title>Gravity Shift — flip gravity, survive the shaft</title>
-<meta name="description" content="Gravity Shift is a one-touch momentum runner. Flip gravity to run the ceiling or the floor, dodge spikes, grab shards, and survive an ever-accelerating shaft." />
+<meta name="theme-color" content="#05070B" />
+<title>Gravity Shift — Flip gravity. Beat the challenge!</title>
+<meta name="description" content="Gravity Shift is a one-touch gravity-flip runner. Flip gravity to run the ceiling or the floor, dodge hazards, grab shards and survive an ever-accelerating shaft." />
 <link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" href="icons/icon-48.png" sizes="48x48" />
 <link rel="apple-touch-icon" href="icons/icon-192.png" />
-<link rel="icon" href="icons/icon-192.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@500;600;700&family=JetBrains+Mono:wght@600&display=swap" />
+<link rel="stylesheet" href="tokens.css" />
 <style>
-  :root {
-    --bg: #05070f;
-    --cyan: #22e6ff;
-    --pink: #ff3d81;
-    --gold: #ffd166;
-    --ink: #eaf6ff;
-    --dim: #7f93ad;
-  }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body {
     margin: 0; padding: 0; height: 100%;
-    background: radial-gradient(circle at 50% 20%, #0b1428 0%, #05070f 60%, #02030a 100%);
-    color: var(--ink);
-    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: radial-gradient(circle at 50% 18%, #101A24 0%, var(--gs-slate-deep) 55%, var(--gs-void) 100%);
+    color: var(--gs-text);
+    font-family: var(--gs-font-ui);
     overflow: hidden;
     overscroll-behavior: none;
     touch-action: manipulation;
@@ -38,10 +34,10 @@
     width: min(100vw, calc(100vh * 16 / 9));
     height: min(100vh, calc(100vw * 9 / 16));
     max-width: 1280px;
-    border-radius: 18px;
+    border-radius: var(--gs-radius-lg);
     overflow: hidden;
-    box-shadow: 0 0 0 1px rgba(34, 230, 255, 0.14), 0 30px 90px rgba(0, 0, 0, 0.75);
-    background: #05070f;
+    box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.14), var(--gs-shadow-panel);
+    background: var(--gs-void);
   }
   canvas { display: block; width: 100%; height: 100%; touch-action: none; }
 
@@ -51,16 +47,19 @@
     letter-spacing: 0.04em;
   }
   #scoreBox { position: absolute; top: 14px; left: 18px; }
-  #scoreVal { font-size: clamp(22px, 3.6vw, 38px); font-weight: 800; line-height: 1; text-shadow: 0 0 18px rgba(34, 230, 255, 0.55); }
-  #scoreLbl { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--dim); margin-top: 4px; }
+  #scoreVal {
+    font-family: var(--gs-font-num); font-size: clamp(22px, 3.4vw, 34px); font-weight: 600; line-height: 1;
+    color: var(--gs-ivory); text-shadow: var(--gs-glow-gravity);
+  }
+  #scoreLbl { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gs-text-dim); margin-top: 4px; }
   #bestBox { position: absolute; top: 14px; right: 18px; text-align: right; }
-  #bestVal { font-size: clamp(14px, 2vw, 20px); font-weight: 700; color: var(--gold); }
-  #bestLbl { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--dim); }
+  #bestVal { font-family: var(--gs-font-num); font-size: clamp(14px, 2vw, 19px); font-weight: 600; color: var(--gs-gravity-hi); }
+  #bestLbl { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gs-text-dim); }
   #combo {
     position: absolute; left: 50%; transform: translateX(-50%); top: 16px;
-    font-size: clamp(12px, 1.8vw, 18px); font-weight: 800; color: var(--pink);
-    opacity: 0; transition: opacity 140ms ease;
-    text-shadow: 0 0 16px rgba(255, 61, 129, 0.6);
+    font-size: clamp(12px, 1.8vw, 18px); font-weight: 700; color: var(--gs-gravity-hi);
+    opacity: 0; transition: opacity var(--gs-t-fast) var(--gs-ease-out);
+    text-shadow: var(--gs-glow-gravity);
   }
   #combo.on { opacity: 1; }
 
@@ -70,69 +69,79 @@
     flex-direction: column; align-items: center; justify-content: center;
     text-align: center;
     padding: 24px;
-    background: radial-gradient(circle at 50% 45%, rgba(6, 12, 26, 0.72) 0%, rgba(3, 5, 12, 0.92) 70%);
+    background: radial-gradient(circle at 50% 45%, rgba(11, 17, 25, 0.78) 0%, rgba(5, 7, 11, 0.94) 72%);
     backdrop-filter: blur(3px);
   }
-  .screen.show { display: flex; animation: fade 200ms ease both; }
+  .screen.show { display: flex; animation: fade var(--gs-t-base) var(--gs-ease-out) both; }
   @keyframes fade { from { opacity: 0 } to { opacity: 1 } }
 
-  .kicker { font-size: 10px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--cyan); opacity: 0.85; }
-  h1 {
-    margin: 10px 0 6px;
-    font-size: clamp(34px, 7vw, 74px);
-    font-weight: 900; letter-spacing: -0.02em; line-height: 0.95;
-    background: linear-gradient(180deg, #ffffff 0%, var(--cyan) 55%, #1a7fff 100%);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    filter: drop-shadow(0 0 26px rgba(34, 230, 255, 0.35));
+  .mark { width: clamp(46px, 8vw, 68px); height: auto; filter: drop-shadow(0 0 22px rgba(34, 211, 238, 0.45)); }
+  .kicker {
+    font-family: var(--gs-font-display); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.34em; text-transform: uppercase; color: var(--gs-gravity); opacity: 0.9;
+    margin-top: 10px;
   }
-  .pitch { max-width: 46ch; color: #b9cbe0; font-size: clamp(13px, 1.8vw, 17px); line-height: 1.5; margin: 0 0 4px; }
+  h1 {
+    margin: 8px 0 6px;
+    font-family: var(--gs-font-display);
+    font-size: clamp(30px, 6.4vw, 66px);
+    font-weight: 700; letter-spacing: 0.02em; line-height: 0.98; text-transform: uppercase;
+    background: linear-gradient(180deg, #FFFFFF 0%, var(--gs-gravity-hi) 45%, var(--gs-gravity) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 0 26px rgba(34, 211, 238, 0.32));
+  }
+  .pitch { max-width: 46ch; color: var(--gs-mist); font-size: clamp(13px, 1.7vw, 16px); line-height: 1.55; margin: 0 0 4px; }
   .keys { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 16px 0 4px; }
   .key {
-    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
-    border: 1px solid rgba(34, 230, 255, 0.28); border-radius: 999px;
-    padding: 7px 12px; color: #cfe9f7; background: rgba(34, 230, 255, 0.06);
+    font-family: var(--gs-font-ui); font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    border: var(--gs-border-w) solid var(--gs-border); border-radius: 999px;
+    padding: 7px 12px; color: var(--gs-text); background: rgba(34, 211, 238, 0.06);
   }
   .btn {
     margin-top: 20px;
     pointer-events: auto;
     appearance: none; border: 0; cursor: pointer;
-    font: inherit; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+    font-family: var(--gs-font-display); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
     font-size: clamp(13px, 1.7vw, 16px);
     padding: 15px 34px; border-radius: 999px;
-    color: #02121a;
-    background: linear-gradient(180deg, #7af6ff, var(--cyan) 45%, #12b8d8);
-    box-shadow: 0 10px 30px rgba(34, 230, 255, 0.32), inset 0 -2px 0 rgba(0, 0, 0, 0.18);
-    transition: transform 120ms ease, box-shadow 120ms ease;
+    color: var(--gs-void);
+    background: linear-gradient(180deg, var(--gs-gravity-hi), var(--gs-gravity) 55%, #0E9DB8);
+    box-shadow: var(--gs-glow-gravity), inset 0 -2px 0 rgba(0, 0, 0, 0.22);
+    transition: transform var(--gs-t-fast) var(--gs-ease-out), box-shadow var(--gs-t-fast) var(--gs-ease-out);
   }
-  .btn:hover { transform: translateY(-1px); box-shadow: 0 14px 36px rgba(34, 230, 255, 0.42), inset 0 -2px 0 rgba(0, 0, 0, 0.18); }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 0 28px rgba(34, 211, 238, 0.6), inset 0 -2px 0 rgba(0, 0, 0, 0.22); }
   .btn:active { transform: translateY(1px) scale(0.99); }
+  .btn:focus-visible { outline: 2px solid var(--gs-gravity-hi); outline-offset: 3px; }
   .btn.ghost {
-    background: transparent; color: #cfe9f7;
-    border: 1px solid rgba(34, 230, 255, 0.3); box-shadow: none;
+    background: transparent; color: var(--gs-text);
+    border: var(--gs-border-w) solid var(--gs-border); box-shadow: none;
     padding: 12px 22px; font-size: 12px; margin-left: 10px;
   }
-  .foot { margin-top: 18px; font-size: 11px; color: var(--dim); letter-spacing: 0.08em; }
+  .foot { margin-top: 18px; font-size: 11px; color: var(--gs-text-dim); letter-spacing: 0.12em; text-transform: uppercase; }
 
   .big-score {
-    font-size: clamp(46px, 11vw, 104px); font-weight: 900; line-height: 1;
-    color: #fff; text-shadow: 0 0 40px rgba(255, 61, 129, 0.45);
-    font-variant-numeric: tabular-nums;
+    font-family: var(--gs-font-num);
+    font-size: clamp(42px, 10vw, 92px); font-weight: 600; line-height: 1;
+    color: var(--gs-ivory); text-shadow: var(--gs-glow-gravity);
   }
-  .sub { color: var(--dim); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; margin-top: 8px; }
-  .newbest { color: var(--gold); font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; font-size: 12px; margin-top: 12px; }
+  .sub { color: var(--gs-text-dim); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 8px; }
+  .newbest { color: var(--gs-gravity-hi); font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; font-size: 12px; margin-top: 12px; }
   .row { display: flex; align-items: center; justify-content: center; }
   #mute {
     position: absolute; bottom: 12px; right: 14px; pointer-events: auto;
-    background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12);
-    color: #b9cbe0; border-radius: 10px; padding: 7px 11px; font-size: 13px; cursor: pointer;
+    background: var(--gs-surface); border: var(--gs-border-w) solid var(--gs-border);
+    color: var(--gs-mist); border-radius: var(--gs-radius-sm); padding: 7px 11px;
+    font-family: var(--gs-font-ui); font-size: 11px; letter-spacing: 0.12em; cursor: pointer;
   }
+  #mute:focus-visible { outline: 2px solid var(--gs-gravity-hi); outline-offset: 2px; }
   @media (max-width: 640px) { #stage { border-radius: 0; } .keys { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .screen.show { animation: none; } }
 </style>
 </head>
 <body>
 <div id="wrap">
   <div id="stage">
-    <canvas id="game" aria-label="Gravity Shift game canvas" role="img"></canvas>
+    <canvas id="game" aria-label="Gravity Shift game canvas. Press space, tap or click to flip gravity." role="img"></canvas>
 
     <div class="hud">
       <div id="scoreBox">
@@ -148,9 +157,10 @@
     </div>
 
     <div class="screen show" id="titleScreen">
-      <div class="kicker">One touch • Endless</div>
+      <img class="mark" src="logo-mark.svg" alt="" width="68" height="68" />
+      <div class="kicker">Flip gravity. Beat the challenge!</div>
       <h1>Gravity Shift</h1>
-      <p class="pitch">Flip gravity to run the floor or the ceiling. Dodge the spikes, snatch the shards, and stay alive as the shaft keeps speeding up.</p>
+      <p class="pitch">One touch flips which way is down. Run the floor, run the ceiling, thread the hazards and stay alive as the shaft keeps speeding up.</p>
       <div class="keys">
         <span class="key">Space / Tap to flip</span>
         <span class="key">P to pause</span>
@@ -162,7 +172,7 @@
 
     <div class="screen" id="pauseScreen">
       <div class="kicker">Paused</div>
-      <h1 style="font-size:clamp(28px,6vw,54px)">Hold still</h1>
+      <h1 style="font-size:clamp(26px,5.4vw,48px)">Hold still</h1>
       <p class="pitch">Take a breath. The shaft will wait.</p>
       <div class="row">
         <button class="btn" id="resumeBtn">Resume</button>
@@ -173,7 +183,7 @@
     <div class="screen" id="overScreen">
       <div class="kicker">Run over</div>
       <div class="big-score" id="finalScore">0</div>
-      <div class="sub" id="finalDetail">0 m • 0 shards</div>
+      <div class="sub" id="finalDetail">0 m &middot; 0 shards</div>
       <div class="newbest" id="newBest" style="display:none">New best</div>
       <button class="btn" id="againBtn">Run again</button>
       <div class="foot">Best 0</div>

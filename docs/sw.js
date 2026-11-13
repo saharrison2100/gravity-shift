@@ -1,5 +1,5 @@
-const CACHE = "gravity-shift-v1";
-const ASSETS = ["./", "./index.html", "./game.js", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png"];
+const CACHE = "gravity-shift-v2";
+const ASSETS = ["./", "./index.html", "./game.js", "./tokens.css", "./logo-mark.svg", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png", "./icons/icon-maskable-512.png", "./icons/icon-48.png"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting()));
